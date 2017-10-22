@@ -28,7 +28,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="chahaofang" target="1.5" />
-      <module name="chahaofang-spider" target="1.5" />
+      <module name="chahaofang-spider" target="1.7" />
       <module name="chahaofang-web" target="1.5" />
     </bytecodeTargetLevel>
   </component>

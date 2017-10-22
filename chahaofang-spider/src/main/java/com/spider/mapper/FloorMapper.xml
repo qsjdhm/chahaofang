@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 这块等于dao接口的实现  namespace必须和接口的类路径一样 -->
+<mapper namespace="com.spider.dao.FloorMapper">
+
+    <!-- 根据名称获取地块 -->
+    <select id="findByName" parameterType="String" resultType="com.spider.entity.Floor">
+        select name, hash
+        from houses.floor where name=#{name}
+    </select>
+
+    <!-- 根据楼盘名称获取地块列表 -->
+    <select id="findByHousesName" parameterType="String" resultType="com.spider.entity.Floor">
+        select name, hash
+        from houses.floor where pHousesName=#{name}
+    </select>
+
+    <!-- 插入地块 -->
+    <insert id="insertFloor" parameterType="com.spider.entity.Floor" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `houses`.`floor` ( `name`, `fdcUrl`, `canSold`
+        , `address`, `county`, `scale`, `totalPlotsNumber`, `property`
+        , `pHousesId`, `pHousesName`, `hash`)
+        VALUES (#{name}, #{fdcUrl}, #{canSold}, #{address}, #{county}
+        , #{scale}, #{totalPlotsNumber}, #{property}, #{pHousesId}
+        , #{pHousesName}, #{hash})
+    </insert>
+
+    <!-- 更新地块 -->
+    <update id="updateFloor" parameterType="com.spider.entity.Floor">
+        UPDATE houses.floor
+        SET fdcUrl=#{fdcUrl}, canSold=#{canSold}, address=#{address}, county=#{county},
+         scale=#{scale}, totalPlotsNumber=#{totalPlotsNumber}, property=#{property},
+         pHousesId=#{pHousesId}, pHousesName=#{pHousesName}, hash=#{hash}
+        WHERE name=#{name}
+    </update>
+
+
+    <resultMap id="floorResult" type="com.spider.entity.Floor">
+        <result property="name" column="name"/>
+        <result property="fdcUrl" column="fdcUrl"/>
+        <result property="canSold" column="canSold"/>
+        <result property="address" column="address"/>
+        <result property="county" column="county"/>
+        <result property="scale" column="scale"/>
+        <result property="totalPlotsNumber" column="totalPlotsNumber"/>
+        <result property="property" column="property"/>
+        <result property="pHousesId" column="pHousesId"/>
+        <result property="pHousesName" column="pHousesName"/>
+        <result property="hash" column="hash"/>
+    </resultMap>
+
+    <select id="select" parameterType="Map" resultMap="floorResult" resultType="com.spider.entity.Floor">
+        select name, hash
+        from houses.floor FLOOR
+        where 1 = 1
+        <if test="name != null">
+            and FLOOR.name=#{name}
+        </if>
+        <if test="hash != null">
+            and FLOOR.hash=#{hash}
+        </if>
+        <if test="pHousesName != null">
+            and FLOOR.pHousesName=#{pHousesName}
+        </if>
+    </select>
+
+
+    <sql id="insertKey">
+        <trim suffixOverrides=",">
+            <if test="name!=null"> name, </if>
+            <if test="fdcUrl!=null"> fdcUrl, </if>
+            <if test="canSold!=null"> canSold, </if>
+            <if test="address!=null"> address, </if>
+            <if test="county!=null"> county, </if>
+            <if test="scale!=null"> scale, </if>
+            <if test="totalPlotsNumber!=null"> totalPlotsNumber, </if>
+            <if test="property!=null"> property, </if>
+            <if test="pHousesId!=null"> pHousesId, </if>
+            <if test="pHousesName!=null"> pHousesName, </if>
+            <if test="hash!=null"> hash, </if>
+        </trim>
+    </sql>
+    <sql id="insertValue">
+        <trim suffixOverrides=",">
+            <if test="name!=null"> #{name}, </if>
+            <if test="fdcUrl!=null"> #{fdcUrl}, </if>
+            <if test="canSold!=null"> #{canSold}, </if>
+            <if test="address!=null"> #{address}, </if>
+            <if test="county!=null"> #{county}, </if>
+            <if test="scale!=null"> #{scale}, </if>
+            <if test="totalPlotsNumber!=null"> #{totalPlotsNumber}, </if>
+            <if test="property!=null"> #{property}, </if>
+            <if test="pHousesId!=null"> #{pHousesId}, </if>
+            <if test="pHousesName!=null"> #{pHousesName}, </if>
+            <if test="hash!=null"> #{hash}, </if>
+        </trim>
+    </sql>
+
+    <insert id="insert" parameterType="com.spider.entity.Floor" useGeneratedKeys="true" keyProperty="id">
+        insert into houses.floor (<include refid="insertKey"/>) values(<include refid="insertValue"/>);
+    </insert>
+
+    <update id="update" parameterType="com.spider.entity.Floor">
+        update houses.floor
+        <set>
+            <if test="fdcUrl!=null"> fdcUrl=#{fdcUrl}, </if>
+            <if test="canSold!=null"> canSold=#{canSold}, </if>
+            <if test="address!=null"> address=#{address}, </if>
+            <if test="county!=null"> county=#{county}, </if>
+            <if test="scale!=null"> scale=#{scale}, </if>
+            <if test="totalPlotsNumber!=null"> totalPlotsNumber=#{totalPlotsNumber}, </if>
+            <if test="property!=null"> property=#{property}, </if>
+            <if test="pHousesId!=null"> pHousesId=#{pHousesId}, </if>
+            <if test="pHousesName!=null"> pHousesName=#{pHousesName}, </if>
+            <if test="hash!=null"> hash=#{hash}, </if>
+        </set>
+        where name = #{name}
+    </update>
+
+</mapper>
