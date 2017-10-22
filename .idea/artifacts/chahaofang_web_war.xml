@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="chahaofang-web:war">
+    <output-path>$PROJECT_DIR$/chahaofang-web/target</output-path>
+    <root id="archive" name="chahaofang-web.war">
+      <element id="artifact" artifact-name="chahaofang-web:war exploded" />
+    </root>
+  </artifact>
+</component>
