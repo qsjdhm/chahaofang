@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -24,11 +26,13 @@ public class UserController {
     @Resource
     private UserService userService;
 
+
     @RequestMapping("/showUser")
-    public String showUser(HttpServletRequest request, Model model){
+    public void showUser(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
         log.info("查询所有用户信息");
-        List<User> userList = userService.getAllUser();
-        model.addAttribute("userList",userList);
-        return "showUser";
+//        List<User> userList = userService.getAllUser();
+//        model.addAttribute("userList",userList);
+//        return "showUser";
+        response.getWriter().print("asdasd");
     }
 }
